@@ -27,12 +27,22 @@
 (= (map $f (Cons $x $xs))
    (Cons ($f $x) (map $f $xs)))
    
-;; Remove duplicate elements from a list
+
+;; Remove the first occurrence of an element
+(= (remove-element $x Nil) Nil)
+(= (remove-element $x (Cons $y $ys))
+   (if (== $x $y)
+       $ys
+       (Cons $y (remove-element $x $ys))))
+
+;; Remove duplicate elements from a list 
 (= (remove-duplicates Nil) Nil)
 (= (remove-duplicates (Cons $x $xs))
-   (if (is-member $x $xs)
-       (remove-duplicates $xs)  ;; Skip if the element already exists in the tail
-       (Cons $x (remove-duplicates $xs))))  ;; Include the element otherwise
+   (Cons $x (remove-duplicates (remove-element $x $xs))))
+
+
+
+ 
 
 ;; Max value in a list
 (= (max-value Nil) "undefined")  ;; Optional: handle the case where an empty list is passed
@@ -55,12 +65,7 @@
 ;; Pop the first element from the list
 (= (pop (Cons $x $xs)) $xs)
 
-;; Remove the first occurrence of an element
-(= (remove-element $x Nil) Nil)
-(= (remove-element $x (Cons $y $ys))
-   (if (== $x $y)
-       $ys
-       (Cons $y (remove-element $x $ys))))
+
 
 ;; sorting a list
 (= (sort Nil) Nil)
@@ -107,10 +112,15 @@
 
 ;; Test length of a list
 !(length (Cons A (Cons B (Cons C Nil))))  ;; Expected output: 3
+
 ;; Test memeber in a list
 !(is-member 1 (Cons 1 (Cons 2 (Cons 3 (Cons 4 Nil)))))  ;; Expected output: true
+
 ;; Test appending to a list
 !(append (Cons A (Cons B Nil)) (Cons C (Cons D Nil)))  ;; Expected output: (Cons A (Cons B (Cons C (Cons D Nil))))
+
+;;Test removing duplicate in a list
+! (remove-duplicates (Cons 1 (Cons 2 (Cons 1 (Cons 3 (Cons 2 Nil)))))) ;; Expected output: [(Cons 1 (Cons 2 (Cons 3 Nil)))]
 
 ;; Test mapping a list
 ! (map A (Cons 1 (Cons 2 (Cons 3 ())))) ;; Expected output: [(Cons (A 1) (Cons (A 2) (Cons (A 3) ())))]
@@ -122,7 +132,7 @@
 ! (min-value  (Cons 3 (Cons 1 (Cons 2 Nil)))) ;;Expected value [1]
 
 ;; Test push to a list
-! (push  4 (Cons 3 (Cons 1 (Cons 2 Nil)))) ;;Expected output [(Cons 4 (Cons 3 (Cons 1 (Cons 2 Nil))))]
+! (push  4 (Cons 3 (Cons 2 (Cons 1 Nil)))) ;;Expected output [(Cons 4 (Cons 3 (Cons 2 (Cons 1 Nil))))]
 
 ;; Test poping from a list
 ! (pop (Cons 1 (Cons 2 (Cons 3 Nil)))) ;;Expected output  [(Cons 2 (Cons 3 Nil))]
