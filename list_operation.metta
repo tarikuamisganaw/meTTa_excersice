@@ -20,7 +20,7 @@
 (= (is-member $x (Cons $y $ys))
    (if (== $x $y)
        true
-       (is-member $x $ys)))  ;; Recursively check the rest of the list if no match
+       (is-member $x $ys)))  ;; Recursively check the rest of the list 
 
 ;; map operation in list
 (= (map $f ()) ())
@@ -45,14 +45,14 @@
  
 
 ;; Max value in a list
-(= (max-value Nil) "undefined")  ;; Optional: handle the case where an empty list is passed
+(= (max-value Nil) "undefined")  ;;handle the case where an empty list is passed
 (= (max-value (Cons $x Nil)) $x)  ;; Base case: only one element
 (= (max-value (Cons $x $xs))
    (let $max-xs (max-value $xs)
         (if (> $x $max-xs) $x $max-xs)))  ;; Recursive case: compare head with max of tail
 
 ;;calculate the minimum value
-(= (min-value Nil) "undefined")  ;; Optional: handle the case where an empty list is passed
+(= (min-value Nil) "undefined")  ;;handle the case where an empty list is passed
 (= (min-value (Cons $x Nil)) $x)  ;; Base case: only one element
 (= (min-value (Cons $x $xs))
    (let $max-xs (min-value $xs)
